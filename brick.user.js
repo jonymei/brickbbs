@@ -1,14 +1,14 @@
 // ==UserScript==
 // @name        砖石社区
 // @namespace   https://github.com/jonymei
-// @description 自动屏蔽 JG、特短内容，净化论坛环境。支持通过菜单启用或关闭规则。
+// @description 自动屏蔽 JG、特短（5字符以内）内容，净化论坛环境。模拟 hash 路由，支持帖子链接直达。
 // @match       https://in.iflytek.com/iflyteksns/forum/*
 // @match       https://in.iflytek.com/fornt/forum/index
 // @grant       GM_registerMenuCommand
 // @grant       GM_unregisterMenuCommand
 // @grant       GM_getValue
 // @grant       GM_setValue
-// @version     1.0
+// @version     1.1
 // @author      maY
 // @license     MIT
 // ==/UserScript==
@@ -41,7 +41,7 @@ function updateMenu() {
 
 updateMenu()
 
-function removeSpam(document) {
+function removeSpam() {
   const tables = document.querySelectorAll('table.plate-table')
   tables.forEach((table) => {
     if (table.querySelector('div.title')) {
@@ -98,5 +98,6 @@ function handleIframe() {
     handleMain()
   } else {
     handleIframe()
+    removeSpam()
   }
 })()
