@@ -65,10 +65,13 @@ function removeSpam(document) {
 
 function handleMain() {
   function updateLocaion() {
-    const path = iframe.contentDocument.location.pathname
-    const current = document.location.hash.substring(1)
-    if (current && current !== path) {
-      iframe.contentDocument.location.href = `${document.location.origin}${current}`
+    const hash = document.location.hash.substring(1)
+    if (!hash) return
+    let [hashedPath, hashedSearch] = hash.split('/$/')
+    hashedSearch = hashedSearch ? `?${hashedSearch}` : ''
+    const href = `${document.location.origin}${hashedPath}${hashedSearch}`
+    if (iframe.contentDocument.location.href !== href) {
+      iframe.contentDocument.location.href = href
     }
   }
   window.addEventListener('hashchange', () => {
@@ -80,7 +83,13 @@ function handleMain() {
 }
 
 function handleIframe() {
-  window.parent.document.location.hash = `#${document.location.pathname}`
+  let suffix = document.location.search
+  if (suffix && suffix.startsWith('?page')) {
+    suffix = document.location.search.replace('?', '/$/')
+  } else {
+    suffix = ''
+  }
+  window.parent.document.location.hash = `#${document.location.pathname}${suffix}`
 }
 
 ;(function () {
