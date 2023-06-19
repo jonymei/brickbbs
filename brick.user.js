@@ -83,6 +83,7 @@ function handleMain() {
 }
 
 function handleIframe() {
+  if (document.location.pathname === '/iflyteksns/forum/web/index') return
   let suffix = document.location.search
   if (suffix && suffix.startsWith('?page')) {
     suffix = document.location.search.replace('?', '/$/')
