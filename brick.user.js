@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        砖石社区
 // @namespace   https://github.com/jonymei
-// @description 自动屏蔽 JG、特短内容，净化论坛环境
+// @description 自动屏蔽 JG、特短内容，净化论坛环境。支持通过菜单启用或关闭规则。
 // @match       https://in.iflytek.com/iflyteksns/forum/web/snsDoc/detail/*
 // @match       https://in.iflytek.com/fornt/forum/index
 // @grant       GM_registerMenuCommand
