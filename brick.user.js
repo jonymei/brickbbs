@@ -2,7 +2,7 @@
 // @name        砖石社区
 // @namespace   https://github.com/jonymei
 // @description 自动屏蔽 JG、特短内容，净化论坛环境。支持通过菜单启用或关闭规则。
-// @match       https://in.iflytek.com/iflyteksns/forum/web/snsDoc/detail/*
+// @match       https://in.iflytek.com/iflyteksns/forum/*
 // @match       https://in.iflytek.com/fornt/forum/index
 // @grant       GM_registerMenuCommand
 // @grant       GM_unregisterMenuCommand
@@ -43,13 +43,13 @@ updateMenu()
 
 function removeSpam(document) {
   const tables = document.querySelectorAll('table.plate-table')
-  tables.forEach(table => {
+  tables.forEach((table) => {
     if (table.querySelector('div.title')) {
       return
     }
     const ps = table.querySelectorAll('tbody > tr > td:nth-child(2) > div > p')
     let text = ''
-    ps.forEach(p => {
+    ps.forEach((p) => {
       text = text + p.innerText
     })
     text = text.trim()
@@ -63,7 +63,30 @@ function removeSpam(document) {
   })
 }
 
+function handleMain() {
+  function updateLocaion() {
+    const path = iframe.contentDocument.location.pathname
+    const current = document.location.hash.substring(1)
+    if (current && current !== path) {
+      iframe.contentDocument.location.href = `${document.location.origin}${current}`
+    }
+  }
+  window.addEventListener('hashchange', () => {
+    updateLocaion()
+  })
+  const iframe = document.getElementById('main_iframe')
+  if (!iframe) return
+  updateLocaion()
+}
 
-(function () {
-  removeSpam(document)
-})();
+function handleIframe() {
+  window.parent.document.location.hash = `#${document.location.pathname}`
+}
+
+;(function () {
+  if (window.parent === window.self) {
+    handleMain()
+  } else {
+    handleIframe()
+  }
+})()
