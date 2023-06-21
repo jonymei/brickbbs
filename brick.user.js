@@ -9,7 +9,7 @@
 // @grant       GM_unregisterMenuCommand
 // @grant       GM_getValue
 // @grant       GM_setValue
-// @version     1.1
+// @version     1.2
 // @author      maY
 // @license     MIT
 // ==/UserScript==
@@ -17,6 +17,7 @@
 const menu = []
 const removeJGId = 'jg'
 const removeTDId = 'td'
+const injectRouterId = 'router'
 
 function updateMenu() {
   for (const item of menu) {
@@ -36,6 +37,14 @@ function updateMenu() {
   menu.push(removeTDItem)
   GM_registerMenuCommand(removeTDItem, () => {
     GM_setValue(removeTDId, !GM_getValue(removeTDId, true))
+    updateMenu()
+  })
+
+  const injectRouter = GM_getValue(injectRouterId, true)
+  const injectRouterItem = `${injectRouter ? '✅' : '🔘'} 注入 hash 路由`
+  menu.push(injectRouterItem)
+  GM_registerMenuCommand(injectRouterItem, () => {
+    GM_setValue(injectRouterId, !GM_getValue(injectRouterId, true))
     updateMenu()
   })
 }
@@ -95,10 +104,13 @@ function handleIframe() {
 }
 
 ;(function () {
-  if (window.parent === window.self) {
-    handleMain()
-  } else {
-    handleIframe()
-    removeSpam()
+  updateMenu()
+  removeSpam()
+  if (GM_getValue(injectRouterId, true)) {
+    if (window.parent === window.self) {
+      handleMain()
+    } else {
+      handleIframe()
+    }
   }
 })()
