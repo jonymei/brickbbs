@@ -5,17 +5,19 @@
 - 回帖屏蔽，包括 JG、特短（5 字符以内）内容，净化论坛环境。
 - 模拟 hash 路由，支持帖子链接直达。
 
+GitHub: [jonymei/brickbbs](https://github.com/jonymei/brickbbs)
+
 ## 回帖屏蔽
 
 论坛上充斥着大量 JG 的无意义回复，十分碍眼，且影响心情，现在你可以轻松的屏蔽这些回帖了！
 
 支持屏蔽 JG 和 5 个字符以内的回帖（当然也包括纯表情包），可以在设置里启用或者关闭这两个规则，默认都是开启的。
 
-![brick settings](assets/settings.png)
+![brick settings](https://raw.githubusercontent.com/jonymei/brickbbs/main/assets/settings.png)
 
 应用效果如下：
 
-![run](assets/run.png)
+![run](https://raw.githubusercontent.com/jonymei/brickbbs/main/assets/run.png)
 
 ## hash 路由
 
